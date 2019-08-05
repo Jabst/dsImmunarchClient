@@ -1,0 +1,8 @@
+Package: dsImmunarchClient
+Maintainer: <jast@inesctec.pt>
+Author: <jast@inesctec.pt>
+Version: 1.0.0
+License: GPL-3
+Title: DataSHIELD client side functions for dsImmunarch
+Description: DataSHIELD tutorial functions for for dsImmunarch
+Depends: opal
