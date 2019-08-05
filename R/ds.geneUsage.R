@@ -52,6 +52,7 @@ ds.geneUsage = function(x=NULL, type='combine', checks=FALSE, datasources=NULL){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
   
+  print("Cheguei aqui")
   
   cally <- paste0("geneUsageDS(", x, ", .gene=c('HomoSapiens.TRBJ')" ,")")
   # print(paste0("geneUsageDS(", x, ", .gene=c('HomoSapiens.TRBJ')" ,")"))
