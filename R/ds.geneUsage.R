@@ -79,7 +79,8 @@ ds.geneUsage = function(x=NULL, type='combine', checks=FALSE, datasources=NULL){
   
   #-------------------------------------- CALLING SERVER SIDE FUNCTION --------------------------------#
   
-  cally <- paste0("geneUsageDS(", x, ")")
+  cally <- paste0("geneUsageDS(", x, ",c('HomoSapiens.TRBJ')" ,")")
+  # print(paste0("geneUsageDS(", x, ",c('HomoSapiens.TRBJ')" ,")"))
   geneUsage.local <- datashield.aggregate(datasources, as.symbol(cally))
   
   #cally <- paste0("NROW(", x, ")")
