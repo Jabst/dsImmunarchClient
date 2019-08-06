@@ -38,56 +38,36 @@
 #' 
 
 
+library(opal)
+
 ds.geneUsage = function(x=NULL, type='combine', checks=FALSE, datasources=NULL){
   
-  #-------------------------------------- BASIC CHECKS ----------------------------------------------#
-  # if no opal login details are provided look for 'opal' objects in the environment
-  if(is.null(datasources)){
-    datasources <- findLoginObjects()
-    
-    
-  }
+  server <- c("irecptor-opal") #The server names
+  url <- c("https://ireceptorplus.inesctec.pt/repo") # These IP addresses change
+  user <- "administrator"
+  password <- "password"
+  name <- "name"
+  table <- c("SRP072206.Patient1-B0") 
+  my_logindata <- data.frame(server,name,url,user,password,table)
   
-  if(is.null(x)){
-    stop("Please provide the name of the input vector!", call.=FALSE)
-  }
+  opals <- opal::datashield.login(logins=my_logindata, assign=TRUE)
   
   print("Cheguei aqui")
   
-  cally <- paste0("geneUsageDS(", x, ", .gene=c('HomoSapiens.TRBJ')" ,")")
+  cally <- paste0( "geneUsageDS(42)" )
   # print(paste0("geneUsageDS(", x, ", .gene=c('HomoSapiens.TRBJ')" ,")"))
-  geneUsage.local <- datashield.aggregate(datasources, as.symbol(cally))
+  print("Cheguei aqui3")
+  # geneUsage.local <- opal::datashield.method(opals, dim)
   
-  #cally <- paste0("NROW(", x, ")")
-  #length.local <- datashield.aggregate(datasources, cally)
+  geneUsage.local <- opal::datashield.aggregate(opals, as.symbol(cally))
   
-  # get the number of entries with missing values
-  #cally <- paste0("numNaDS(", x, ")")
-  #numNA.local <- datashield.aggregate(datasources, cally)
-  #-----------------------------------------------------------------------------------------------------#
+
+  #yeehaw <- opal::datashield.has_method(opals, "geneUsageDS")
   
-  #-------------------------------------- FINALIZING RESULTS -------------------------------------------#
-  return(geneUsage.local)
-  if (type=='split') {
-    return(geneUsage.local)
-  } else if (type=='combine') {
-    length.total = 0
-    sum.weighted = 0
-    mean.global  = NA
-    
-    for (i in 1:num.sources){
-      if ((!is.null(length.local[[i]])) & (length.local[[i]]!=0)) {
-        completeLength <- length.local[[i]] - numNA.local[[i]]
-        length.total = length.total+completeLength
-        sum.weighted = sum.weighted+completeLength*mean.local[[i]]
-      }
-    }
-    
-    mean.global = sum.weighted/length.total
-    return(list("Global mean"=mean.global))
-    
-  } else{
-    stop('Function argument "type" has to be either "combine" or "split"')
-  }
+  dsadmin.install_package(opals, "dsImmunarch", githubusername = "Jabst", ref = "master")
+  
+  
+  
+  
   
 }

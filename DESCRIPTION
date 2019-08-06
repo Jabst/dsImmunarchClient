@@ -5,4 +5,6 @@ Version: 1.0.0
 License: GPL-3
 Title: DataSHIELD client side functions for dsImmunarch
 Description: DataSHIELD tutorial functions for for dsImmunarch
-Depends: opal
+Depends: R (>= 3.4.0)
+Imports:
+    opal
