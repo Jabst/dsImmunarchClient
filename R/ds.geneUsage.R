@@ -39,6 +39,8 @@
 
 
 library(opal)
+library(opaladmin)
+library(immunarch)
 
 ds.geneUsage = function(x=NULL, type='combine', checks=FALSE, datasources=NULL){
   
@@ -47,26 +49,32 @@ ds.geneUsage = function(x=NULL, type='combine', checks=FALSE, datasources=NULL){
   user <- "administrator"
   password <- "password"
   name <- "name"
-  table <- c("SRP072206.Patient1-B0") 
+  table <- c("SRP072206.zulul") 
   my_logindata <- data.frame(server,name,url,user,password,table)
   
   opals <- opal::datashield.login(logins=my_logindata, assign=TRUE)
   
   print("Cheguei aqui")
   
-  cally <- paste0( "geneUsageDS(42)" )
+  cally <- paste0( "geneUsageDS(\"D\")" )
   # print(paste0("geneUsageDS(", x, ", .gene=c('HomoSapiens.TRBJ')" ,")"))
   print("Cheguei aqui3")
   # geneUsage.local <- opal::datashield.method(opals, dim)
   
-  geneUsage.local <- opal::datashield.aggregate(opals, as.symbol(cally))
+  #geneUsage.local <- opal::datashield.aggregate(opals, as.symbol(cally))
   
+  opal::datashield.assign(opals, 'P1B0', 'SRP072206.Patient1-B0')
+  
+  geneUsage.local <- opal::datashield.aggregate(opals, "geneUsageDS(D)")
+  
+  
+  opal::opal.execute(opals, "summary(D)")
 
   #yeehaw <- opal::datashield.has_method(opals, "geneUsageDS")
   
   dsadmin.install_package(opals, "dsImmunarch", githubusername = "Jabst", ref = "master")
   
-  
+  vis(geneUsage.local[['ireceptor-opal']])
   
   
   
